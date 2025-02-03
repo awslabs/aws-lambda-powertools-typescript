@@ -19,6 +19,7 @@ import type { IdempotencyRecord } from '../persistence/IdempotencyRecord.js';
 type IdempotencyLambdaHandlerOptions = {
   persistenceStore: BasePersistenceLayer;
   config?: IdempotencyConfig;
+  keyPrefix?: string;
 };
 
 /**
@@ -137,6 +138,10 @@ type IdempotencyHandlerOptions = {
    * Idempotency configuration options.
    */
   idempotencyConfig: IdempotencyConfig;
+  /**
+   * The custom idempotency key prefix.
+   */
+  keyPrefix?: string;
   /**
    * Persistence layer used to store the idempotency records.
    */

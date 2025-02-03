@@ -79,7 +79,7 @@ function makeIdempotent<Func extends AnyFunction>(
   fn: Func,
   options: ItempotentFunctionOptions<Parameters<Func>>
 ): (...args: Parameters<Func>) => ReturnType<Func> {
-  const { persistenceStore, config } = options;
+  const { persistenceStore, config, keyPrefix } = options;
   const idempotencyConfig = config ? config : new IdempotencyConfig({});
 
   if (!idempotencyConfig.isEnabled()) return fn;
@@ -102,6 +102,7 @@ function makeIdempotent<Func extends AnyFunction>(
       functionToMakeIdempotent: fn,
       idempotencyConfig: idempotencyConfig,
       persistenceStore: persistenceStore,
+      keyPrefix: keyPrefix,
       functionArguments: args,
       functionPayloadToBeHashed,
       thisArg: this,

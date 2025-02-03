@@ -80,6 +80,34 @@ describe('Class: BasePersistenceLayer', () => {
       );
     });
 
+    it('should trim function name before appending as key prefix', () => {
+      // Prepare
+      const config = new IdempotencyConfig({});
+      const persistenceLayer = new PersistenceLayerTestClass();
+
+      // Act
+      persistenceLayer.configure({ config, functionName: ' my-function ' });
+
+      // Assess
+      expect(persistenceLayer.idempotencyKeyPrefix).toBe(
+        'my-lambda-function.my-function'
+      );
+    });
+
+    it('appends custom prefix to the idempotence key prefix', () => {
+      // Prepare
+      const config = new IdempotencyConfig({});
+      const persistenceLayer = new PersistenceLayerTestClass();
+
+      // Act
+      persistenceLayer.configure({ config, keyPrefix: 'my-custom-prefix' });
+
+      // Assess
+      expect(persistenceLayer.idempotencyKeyPrefix).toBe(
+        'my-custom-prefix'
+      );
+    });
+
     it('uses default config when no option is provided', () => {
       // Prepare
       const config = new IdempotencyConfig({});

@@ -4,6 +4,7 @@ import type { IdempotencyRecord } from '../persistence/IdempotencyRecord.js';
 type BasePersistenceLayerOptions = {
   config: IdempotencyConfig;
   functionName?: string;
+  keyPrefix?: string;
 };
 
 interface BasePersistenceLayerInterface {

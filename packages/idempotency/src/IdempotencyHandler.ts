@@ -52,6 +52,10 @@ export class IdempotencyHandler<Func extends AnyFunction> {
    */
   readonly #idempotencyConfig: IdempotencyConfig;
   /**
+   * Custom prefix to be used when generating the idempotency key.
+   */
+  readonly #keyPrefix: string | undefined;
+  /**
    * Persistence layer used to store the idempotency records.
    */
   readonly #persistenceStore: BasePersistenceLayer;
@@ -69,11 +73,13 @@ export class IdempotencyHandler<Func extends AnyFunction> {
       idempotencyConfig,
       functionArguments,
       persistenceStore,
+      keyPrefix,
       thisArg,
     } = options;
     this.#functionToMakeIdempotent = functionToMakeIdempotent;
     this.#functionPayloadToBeHashed = functionPayloadToBeHashed;
     this.#idempotencyConfig = idempotencyConfig;
+    this.#keyPrefix = keyPrefix;
     this.#functionArguments = functionArguments;
     this.#thisArg = thisArg;
 
@@ -81,6 +87,7 @@ export class IdempotencyHandler<Func extends AnyFunction> {
 
     this.#persistenceStore.configure({
       config: this.#idempotencyConfig,
+      keyPrefix: this.#keyPrefix,
     });
   }
 
